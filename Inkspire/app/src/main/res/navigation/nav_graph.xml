@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.inkspire.fragments.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_homeFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewChallengeFragment"
+            app:destination="@id/viewChallengeFragment" />
+    </fragment>
+
+    <!-- Profile -->
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.inkspire.fragments.UserProfileFragment"
+        android:label="My Profile">
+        <action
+            android:id="@+id/action_userProfileFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_viewChallengeFragment"
+            app:destination="@id/viewChallengeFragment" />
+        <action
+            android:id="@+id/action_userProfileFragment_to_editUserProfileFragment"
+            app:destination="@id/editUserProfileFragment" />
+    </fragment>
+
+    <!-- Add Challenge -->
+    <fragment
+        android:id="@+id/addChallengeFragment"
+        android:name="com.example.inkspire.fragments.AddChallengeFragment"
+        android:label="New Challenge">
+        <action
+            android:id="@+id/action_addChallengeFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addChallengeFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment"
+            app:popUpTo="@id/userProfileFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- View Challenge -->
+    <fragment
+        android:id="@+id/viewChallengeFragment"
+        android:name="com.example.inkspire.fragments.ViewChallengeFragment"
+        android:label="View Challenge">
+        <argument
+            android:name="challengeId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_viewChallengeFragment_to_editChallengeFragment"
+            app:destination="@id/editChallengeFragment" />
+        <action
+            android:id="@+id/action_viewChallengeFragment_to_otherUserProfileFragment"
+            app:destination="@id/otherUserProfileFragment" />
+    </fragment>
+
+    <!-- Edit Challenge -->
+    <fragment
+        android:id="@+id/editChallengeFragment"
+        android:name="com.example.inkspire.fragments.EditChallengeFragment"
+        android:label="Edit Challenge">
+        <argument
+            android:name="challengeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_editChallengeFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment"
+            app:popUpTo="@id/userProfileFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_editChallengeFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_editChallengeFragment_to_viewChallengeFragment"
+            app:destination="@id/viewChallengeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherUserProfileFragment"
+        android:name="com.example.inkspire.fragments.OtherUserProfileFragment"
+        android:label="Artist Profile" >
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_otherUserProfileFragment_to_viewChallengeFragment"
+            app:destination="@id/viewChallengeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editUserProfileFragment"
+        android:name="com.example.inkspire.fragments.EditUserProfileFragment"
+        android:label="Edit Profile" >
+        <action
+            android:id="@+id/action_editUserProfileFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.example.inkspire.fragments.UserListFragment"
+        android:label="All Artists" >
+        <action
+            android:id="@+id/action_userListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_userListFragment_to_otherUserProfileFragment"
+            app:destination="@id/otherUserProfileFragment">
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false"/>
+        </action>
+    </fragment>
+
+</navigation>
