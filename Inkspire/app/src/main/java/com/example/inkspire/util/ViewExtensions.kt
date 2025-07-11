@@ -7,6 +7,10 @@ import android.widget.EditText
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 
+//Estensione su EditText per intercettare il click sull’icona a destra
+//Controlla se l'utente ha toccato il margine destro del campo di testo, nella zona dove si trova l’icona drawableEnd.
+//Se sì, esegue l’action() passata come lambda.
+//Imposta anche un setOnClickListener "vuoto" per non avere warning sull'accessibilità (performClick()).
 fun EditText.onDrawableEndClick(action: () -> Unit) {
     setOnTouchListener { v, event ->
         if (event.action == MotionEvent.ACTION_UP) {
@@ -21,9 +25,7 @@ fun EditText.onDrawableEndClick(action: () -> Unit) {
         }
         false
     }
-
-    // Per completare l’accessibilità (soddisfa anche il warning performClick)
-    setOnClickListener { /* no-op per performClick */ }
+    setOnClickListener {  }
 }
 
 //Estensione per legare una LiveData<Boolean> alla visibilità di una View

@@ -71,13 +71,13 @@ class AuthRepository {
     fun isLoggedIn(): Boolean = auth.currentUserOrNull() != null
     fun currentUser(): UserInfo? = auth.currentUserOrNull()
 
-    // PROFILO: COMPLETO DELL'UTENTE CORRENTE
+    // Profilo dell'utente corrente
     suspend fun getCurrentUserProfile(): UserProfile? {
         val userId = auth.currentUserOrNull()?.id ?: return null
         return getUserProfileByUserId(userId)
     }
 
-    // PROFILO: DI QUALSIASI UTENTE (con UUID)
+    // Profilo di un qualsiasi utente dato l'uuid
     suspend fun getUserProfileByUserId(userId: String): UserProfile? {
         return try {
             client.from("user_profile").select {
@@ -89,71 +89,3 @@ class AuthRepository {
         }
     }
 }
-
-
-//    // PROFILO: USERNAME
-//    suspend fun getUsername(): String? {
-//        return try {
-//            val userId = auth.currentUserOrNull()?.id ?: return null
-//            val profile = getUserProfileByUserId(userId)
-//            profile?.username
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            null
-//        }
-//    }
-//
-//    suspend fun getCurrentUserProfileId(): String? {
-//        val userId = auth.currentUserOrNull()?.id ?: return null
-//
-//        return client.from("user_profile")
-//            .select {
-//                filter { eq("id", userId) }
-//                limit(1)
-//            }
-//            .decodeSingleOrNull<UserProfile>()
-//            ?.id
-//    }
-//
-//    // PROFILO: COMPLETO DELL'UTENTE CORRENTE
-//    suspend fun getCurrentUserProfile(): UserProfile? {
-//        val userId = auth.currentUserOrNull()?.id ?: return null
-//        return getUserProfileByUserId(userId)
-//    }
-//
-//    // PROFILO: DI QUALSIASI UTENTE (con UUID)
-//    suspend fun getUserProfileByUserId(userId: String): UserProfile? {
-//        return try {
-//            client.from("user_profile").select {
-//                filter { eq("id", userId) }
-//            }.decodeSingle<UserProfile>()
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            null
-//        }
-//    }
-
-
-/*
-*  fun sessionStatusFlow(): Flow<SessionStatus> {
-        return SupabaseManager.auth.sessionStatus
-    }
-
-    suspend fun getSessionToken(): String? {
-        return SupabaseManager.auth.currentAccessTokenOrNull()
-    }
-
-    suspend fun refreshSession() {
-        SupabaseManager.auth.refreshCurrentSession()
-    }
-
-    suspend fun resetPassword(email: String) {
-        SupabaseManager.auth.resetPasswordForEmail(email)
-    }
-
-    suspend fun updateUserEmail(newEmail: String) {
-        SupabaseManager.auth.updateUser {
-            email = newEmail
-        }
-    }
-*/

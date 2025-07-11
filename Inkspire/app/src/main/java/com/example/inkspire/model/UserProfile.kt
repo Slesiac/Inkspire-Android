@@ -12,9 +12,3 @@ data class UserProfile(
     val profile_pic: String? = null,
     val bio: String? = null
 ) : Parcelable
-
-//@Serializable
-//data class UserProfile(
-//    val id: String,
-//    val username: String
-//)

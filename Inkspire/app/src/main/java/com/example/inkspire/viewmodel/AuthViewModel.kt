@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.inkspire.model.UserProfile
 import com.example.inkspire.repository.AuthRepository
-import io.github.jan.supabase.auth.user.UserInfo
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -58,28 +56,4 @@ class AuthViewModel(
 
     fun isLoggedIn(): Boolean = authRepository.isLoggedIn()
 
-
-    //Per uso diretto nei fragments
-    fun currentUser(): UserInfo? = authRepository.currentUser()
-
-    fun getCurrentUserProfile(onResult: (UserProfile?) -> Unit) {
-        viewModelScope.launch {
-            val profile = authRepository.getCurrentUserProfile()
-            onResult(profile)
-        }
-    }
-
-//    fun getUsername(onResult: (String?) -> Unit) {
-//        viewModelScope.launch {
-//            val username = authRepository.getUsername()
-//            onResult(username)
-//        }
-//    }
-
-//    fun getUserProfileById(userId: String, onResult: (UserProfile?) -> Unit) {
-//        viewModelScope.launch {
-//            val profile = authRepository.getUserProfileByUserId(userId)
-//            onResult(profile)
-//        }
-//    }
 }

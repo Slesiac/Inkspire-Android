@@ -37,30 +37,3 @@ class UserProfileViewModel(
         }
     }
 }
-
-
-/*
-class UserProfileViewModel(
-    private val userRepository: UserRepository,
-    private val challengeRepository: ChallengeRepository
-) : ViewModel() {
-
-    private val _userProfile = MutableLiveData<UserProfile>()
-    val userProfile: LiveData<UserProfile> = _userProfile
-
-    private val _userStats = MutableLiveData<Pair<Int, Int>>() // total, completed
-    val userStats: LiveData<Pair<Int, Int>> = _userStats
-
-    private val _userChallenges = MutableLiveData<List<Challenge>>()
-    val userChallenges: LiveData<List<Challenge>> = _userChallenges
-
-    fun loadUserData(userId: String) {
-        viewModelScope.launch {
-            _userProfile.value = userRepository.getUserProfileById(userId)
-            _userStats.value = userRepository.getUserStats(userId)
-            _userChallenges.value = challengeRepository.getChallengesByUser(userId)
-        }
-    }
-}
-
- */

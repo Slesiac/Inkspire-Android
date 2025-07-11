@@ -76,23 +76,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-//    private fun hideBottomUI() {
-//        findViewById<View>(R.id.bottomAppBar).visibility = View.GONE
-//        findViewById<View>(R.id.bottom_nav_view).visibility = View.GONE
-//        findViewById<View>(R.id.addChallengeFab).visibility = View.GONE
-//    }
-//
-//    private fun showBottomUI() {
-//        findViewById<View>(R.id.bottomAppBar).visibility = View.VISIBLE
-//        findViewById<View>(R.id.bottom_nav_view).visibility = View.VISIBLE
-//        findViewById<View>(R.id.addChallengeFab).visibility = View.VISIBLE
-//    }
-//
-//    // Per gestire il tasto "up" nella toolbar
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = (supportFragmentManager
-//            .findFragmentById(R.id.nav_host) as NavHostFragment)
-//            .navController
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-//    }

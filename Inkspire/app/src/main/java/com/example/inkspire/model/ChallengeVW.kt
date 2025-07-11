@@ -22,36 +22,3 @@ data class ChallengeVW(
     val profile_pic: String? = null,
     val bio: String? = null
 ) : Parcelable
-
-/*
-@Parcelize
-@Serializable
-data class ChallengeUser(
-    val id: Int,
-    val user_profile_id: String,
-    val title: String,
-    val concept: String,
-    val art_constraint: String,
-    val description: String? = null,
-    val result_pic: String? = null,
-    val inserted_at: String? = null,
-    val updated_at: String? = null,
-    val user_profile: UserProfile,
-    val isCompleted: Boolean = false
-) : Parcelable
-
-// Funzione che permette di ottenere facilmente un oggetto Challenge da un ChallengeUser
-// (es. per riutilizzare metodi che richiedono solo la challenge pura)
-fun ChallengeUser.toChallenge(): Challenge {
-    return Challenge(
-        id = this.id,
-        user_profile_id = this.user_profile_id,
-        title = this.title,
-        concept = this.concept,
-        art_constraint = this.art_constraint,
-        description = this.description,
-        result_pic = this.result_pic,
-        inserted_at = this.inserted_at,
-        updated_at = this.updated_at
-    )
-}*/
