@@ -38,6 +38,25 @@
         android:id="@+id/addChallengeFragment"
         android:name="com.example.inkspire.fragments.AddChallengeFragment"
         android:label="New Challenge">
+
+        <!-- Argomenti opzionali per precompilare i campi quando si effettua un "Fork" -->
+        <argument
+            android:name="prefillTitle"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="prefillConcept"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="prefillConstraint"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="parentChallengeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+
         <action
             android:id="@+id/action_addChallengeFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -67,6 +86,14 @@
         <action
             android:id="@+id/action_viewChallengeFragment_to_addChallengeFragment"
             app:destination="@id/addChallengeFragment" />
+        <!-- Self-navigation: ViewChallengeFragment -> ViewChallengeFragment
+             per aprire la challenge "parent" dalla schermata corrente -->
+        <action
+            android:id="@+id/action_viewChallengeFragment_self"
+            app:destination="@id/viewChallengeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/viewChallengeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <!-- Edit Challenge -->

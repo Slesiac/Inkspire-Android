@@ -112,7 +112,7 @@
             android:gravity="top"
             android:hint="Enter description (optional)"
             android:inputType="textMultiLine"
-            android:maxLines="8"
+            android:maxLines="6"
             android:minLines="6"
             android:padding="12dp"
             android:textSize="16sp"
@@ -136,7 +136,7 @@
             android:background="@drawable/rounded_save_button" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/addChallengeProgressBar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:visibility="gone"

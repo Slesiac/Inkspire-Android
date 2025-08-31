@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.inkspire.databinding.FragmentAddChallengeBinding
 import com.example.inkspire.factory.ChallengeFormViewModelFactory
-import com.example.inkspire.model.Challenge
 import com.example.inkspire.R
 import com.example.inkspire.repository.ChallengeRepository
 import com.example.inkspire.repository.StorageRepository
@@ -24,7 +23,10 @@ import com.example.inkspire.viewmodel.ChallengeFormViewModel
 import io.ktor.http.ContentType
 import kotlinx.coroutines.launch
 
-class AddChallengeFragment : Fragment(R.layout.fragment_add_challenge) {
+class AddChallengeFragment : Fragment() {
+
+    // Id della challenge sorgente (fork), se presente
+    private var parentChallengeId: Int? = null
 
     private var _binding: FragmentAddChallengeBinding? = null
     private val binding get() = _binding!!
@@ -34,15 +36,15 @@ class AddChallengeFragment : Fragment(R.layout.fragment_add_challenge) {
     private var selectedImageUri: Uri? = null
     private var imageRemoved: Boolean = false
 
-    private val pickImageLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        if (uri != null) {
-            selectedImageUri = uri
-            imageRemoved = false
-            binding.addResultPic.setImageURI(uri)
+    private val pickImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                selectedImageUri = it
+                binding.addResultPic.setImageURI(it)
+                binding.addRemoveResultPicButton.visibility = View.VISIBLE
+                imageRemoved = false
+            }
         }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,37 +57,46 @@ class AddChallengeFragment : Fragment(R.layout.fragment_add_challenge) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Prefill da Safe Args (titolo, concept, constraint, più parent id) - se presenti
+        kotlin.runCatching {
+            val args = com.example.inkspire.fragments.AddChallengeFragmentArgs.fromBundle(requireArguments())
+            // I quattro argomenti hanno default nel nav_graph, perciò sono sempre presenti
+            if (args.prefillTitle.isNotBlank()) binding.addChallengeTitle.setText(args.prefillTitle)
+            if (args.prefillConcept.isNotBlank()) binding.addChallengeConcept.setText(args.prefillConcept)
+            if (args.prefillConstraint.isNotBlank()) binding.addChallengeConstraint.setText(args.prefillConstraint)
+            parentChallengeId = args.parentChallengeId.takeIf { it > 0 }
+        }
+        // Nota: description e result_pic NON vengono precompilati per un fork
+
         setupViewModel()
         setupImagePicker()
-        setupDeleteImageButton()
+        setupRemoveImage()
         setupSaveButton()
-        setupRandomConceptAndConstraint()
         observeLiveData()
+        setupRandomConceptAndConstraint()
     }
 
     private fun setupViewModel() {
-        formViewModel = ViewModelProvider(
-            this,
-            ChallengeFormViewModelFactory(
-                ChallengeRepository(),
-                UserRepository(),
-                StorageRepository()
-            )
-        )[ChallengeFormViewModel::class.java]
+        val factory = ChallengeFormViewModelFactory(
+            ChallengeRepository(),
+            UserRepository(),
+            StorageRepository()
+        )
+        formViewModel = ViewModelProvider(this, factory)[ChallengeFormViewModel::class.java]
     }
 
     private fun setupImagePicker() {
         binding.addResultPic.setOnClickListener {
-            pickImageLauncher.launch("image/*")
+            pickImage.launch("image/*")
         }
     }
 
-    private fun setupDeleteImageButton() {
+    private fun setupRemoveImage() {
         binding.addRemoveResultPicButton.setOnClickListener {
             selectedImageUri = null
-            imageRemoved = true
             binding.addResultPic.setImageResource(R.drawable.logo)
-            Toast.makeText(requireContext(), "Image removed", Toast.LENGTH_SHORT).show()
+            binding.addRemoveResultPicButton.visibility = View.GONE
+            imageRemoved = true
         }
     }
 
@@ -133,13 +144,14 @@ class AddChallengeFragment : Fragment(R.layout.fragment_add_challenge) {
                     imageUrl = null
                 }
 
-                val challenge = Challenge(
+                val challenge = com.example.inkspire.model.Challenge(
                     user_profile_id = userId,
                     title = title,
                     concept = concept,
                     art_constraint = constraint,
                     description = description,
-                    result_pic = imageUrl
+                    result_pic = imageUrl,
+                    parent_id = parentChallengeId
                 )
 
                 Log.d("AddChallengeFragment", "Upload result: $imageUrl")
@@ -168,7 +180,7 @@ class AddChallengeFragment : Fragment(R.layout.fragment_add_challenge) {
         }
 
         formViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            binding.addChallengeButton.isEnabled = !isLoading
+            binding.addChallengeProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         formViewModel.randomConcept.observe(viewLifecycleOwner) { concept ->
