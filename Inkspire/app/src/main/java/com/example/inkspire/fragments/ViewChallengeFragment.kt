@@ -64,9 +64,49 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                 binding.viewChallengeTitle.text = challenge.title
                 binding.viewChallengeConcept.text = "Concept: ${challenge.concept}"
                 binding.viewChallengeConstraint.text = "Constraint: ${challenge.art_constraint}"
-                binding.viewChallengeDescription.text = challenge.description ?: "No description"
+
+                // Gestione description opzionale: se manca si nasconde la view
+                if (challenge.description.isNullOrBlank()) {
+                    binding.viewChallengeDescription.visibility = View.GONE
+                } else {
+                    binding.viewChallengeDescription.visibility = View.VISIBLE
+                    binding.viewChallengeDescription.text = challenge.description
+                }
 
                 binding.viewChallengeAuthorUsername.text = challenge.username
+
+                // Autore principale
+                binding.viewChallengeAuthorUsername.text = challenge.username
+                Glide.with(binding.viewChallengeAuthorImage.context)
+                    .load(challenge.profile_pic ?: R.drawable.ic_account_circle)
+                    .placeholder(R.drawable.ic_account_circle)
+                    .error(R.drawable.ic_account_circle)
+                    .circleCrop()
+                    .into(binding.viewChallengeAuthorImage)
+
+                // Se forkata → mostra autore originale
+                if (challenge.parent_id != null) {
+                    binding.viewChallengeForkedAuthorContainer.visibility = View.VISIBLE
+                    binding.viewChallengeForkedAuthorUsername.text =
+                        challenge.parent_username ?: "Unknown"
+                    Glide.with(binding.viewChallengeForkedAuthorImage.context)
+                        .load(challenge.parent_profile_pic ?: R.drawable.ic_account_circle)
+                        .placeholder(R.drawable.ic_account_circle)
+                        .error(R.drawable.ic_account_circle)
+                        .circleCrop()
+                        .into(binding.viewChallengeForkedAuthorImage)
+
+                    // click su autore originale → profilo
+                    binding.viewChallengeForkedAuthorContainer.setOnClickListener {
+                        val action = ViewChallengeFragmentDirections
+                            .actionViewChallengeFragmentToOtherUserProfileFragment(
+                                challenge.parent_user_id ?: ""
+                            )
+                        findNavController().navigate(action)
+                    }
+                } else {
+                    binding.viewChallengeForkedAuthorContainer.visibility = View.GONE
+                }
 
                 // Immagine Challenge
                 val imageUrl = challenge.result_pic?.takeIf { it.isNotBlank() }
@@ -75,14 +115,6 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.logo)
                     .into(binding.viewChallengeImage)
-
-                // Immagine autore
-                Glide.with(binding.viewChallengeAuthorImage.context)
-                    .load(challenge.profile_pic ?: R.drawable.ic_account_circle)
-                    .placeholder(R.drawable.ic_account_circle)
-                    .error(R.drawable.ic_account_circle)
-                    .circleCrop()
-                    .into(binding.viewChallengeAuthorImage)
             } else {
                 Toast.makeText(requireContext(), "Challenge not found", Toast.LENGTH_SHORT).show()
                 findNavController().popBackStack()
@@ -94,18 +126,33 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
         viewChallengeViewModel.isCurrentUserAuthor.observe(viewLifecycleOwner) { isAuthor ->
             if (isAuthor) {
                 binding.viewChallengeEditButton.visibility = View.VISIBLE
-                binding.viewChallengeAuthorContainer.visibility = View.GONE
+                binding.viewChallengeForkButton.visibility = View.GONE
             } else {
                 binding.viewChallengeEditButton.visibility = View.GONE
-                binding.viewChallengeAuthorContainer.visibility = View.VISIBLE
+                binding.viewChallengeForkButton.visibility = View.VISIBLE
 
+                // Naviga al profilo dell’autore principale
                 binding.viewChallengeAuthorContainer.setOnClickListener {
-                    // Naviga al profilo in sola visualizzazione
                     val action = ViewChallengeFragmentDirections
                         .actionViewChallengeFragmentToOtherUserProfileFragment(
                             viewChallengeViewModel.challenge.value?.user_id ?: ""
                         )
                     findNavController().navigate(action)
+                }
+
+                // Fork: apre AddChallengeFragment con campi precompilati
+                binding.viewChallengeForkButton.setOnClickListener {
+                    val challenge = viewChallengeViewModel.challenge.value
+                    challenge?.let {
+                        val action = ViewChallengeFragmentDirections
+                            .actionViewChallengeFragmentToAddChallengeFragment(
+                                prefillTitle = it.title,
+                                prefillConcept = it.concept,
+                                prefillConstraint = it.art_constraint,
+                                parentChallengeId = it.id
+                            )
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }

@@ -15,6 +15,7 @@ data class ChallengeVW(
     val concept: String,
     val art_constraint: String,
     val description: String? = null,
+
     val result_pic: String? = null,
     val inserted_at: String? = null,
     val updated_at: String? = null,

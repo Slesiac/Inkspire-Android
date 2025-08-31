@@ -26,20 +26,6 @@ class ChallengeRepository {
         }
     }
 
-//    suspend fun updateChallenge(challenge: Challenge): Boolean {
-//        return try {
-//            supabase.from("challenge")
-//                .update(challenge) {
-//                    filter { eq("id", challenge.id) }
-//                    select()
-//                }
-//                .decodeSingle<Challenge>()
-//            true
-//        } catch (e: Exception) {
-//            false
-//        }
-//    }
-
     //Devo passare una Map<String, Any?> per permettere che result_pic = null venga scritto come NULL nel DB.
     suspend fun updateChallenge(challenge: Challenge): Boolean {
         return try {

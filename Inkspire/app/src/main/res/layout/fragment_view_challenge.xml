@@ -32,7 +32,6 @@
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
-            android:visibility="gone"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingTop="8dp"
@@ -53,13 +52,13 @@
                 android:id="@+id/viewChallengeAuthorUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="username"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Edit Button -->
+        <!-- Edit Button (solo autore) -->
         <ImageButton
             android:id="@+id/viewChallengeEditButton"
             android:layout_width="48dp"
@@ -70,10 +69,67 @@
             android:padding="12dp"
             android:src="@drawable/ic_edit"
             android:contentDescription="Edit Challenge"
-            android:visibility="gone"
             app:tint="@color/colorOnAccent"
             app:layout_constraintTop_toBottomOf="@id/viewChallengeImage"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Fork Button (solo se NON autore) -->
+        <ImageButton
+            android:id="@+id/viewChallengeForkButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_save_button"
+            android:padding="12dp"
+            android:src="@drawable/ic_copy"
+            android:contentDescription="Fork Challenge"
+            app:tint="@color/colorOnAccent"
+            app:layout_constraintTop_toBottomOf="@id/viewChallengeImage"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Forked Author container -->
+        <LinearLayout
+            android:id="@+id/viewChallengeForkedAuthorContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewChallengeAuthorContainer">
+
+            <TextView
+                android:id="@+id/viewChallengeForkedAuthorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forked from: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/viewChallengeForkedAuthorImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/circle_background"
+                android:contentDescription="Original Author Image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_account_circle" />
+
+            <TextView
+                android:id="@+id/viewChallengeForkedAuthorUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <!-- Title -->
         <TextView
@@ -81,21 +137,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text=""
+            android:text="Title"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewChallengeAuthorContainer" />
+            app:layout_constraintTop_toBottomOf="@id/viewChallengeForkedAuthorContainer" />
 
-        <!-- Subject -->
+        <!-- Concept -->
         <TextView
             android:id="@+id/viewChallengeConcept"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Concept"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="12dp"
@@ -108,7 +164,7 @@
             android:id="@+id/viewChallengeConstraint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Art constraint"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="12dp"
@@ -116,12 +172,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Description -->
+        <!-- Description (verrà nascosta se vuota) -->
         <TextView
             android:id="@+id/viewChallengeDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Description"
             android:textSize="16sp"
             android:textColor="@color/blackWhite"
             android:layout_marginTop="16dp"
@@ -129,12 +185,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Gruppo: tiene nascosti tutti i contenuti finché carica -->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/viewChallengeContentGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="viewChallengeImage,viewChallengeAuthorContainer,viewChallengeEditButton,viewChallengeForkButton,viewChallengeForkedAuthorContainer,viewChallengeTitle,viewChallengeConcept,viewChallengeConstraint,viewChallengeDescription" />
+
+        <!-- Loader -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

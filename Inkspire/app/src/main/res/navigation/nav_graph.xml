@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_viewChallengeFragment_to_otherUserProfileFragment"
             app:destination="@id/otherUserProfileFragment" />
+        <action
+            android:id="@+id/action_viewChallengeFragment_to_addChallengeFragment"
+            app:destination="@id/addChallengeFragment" />
     </fragment>
 
     <!-- Edit Challenge -->

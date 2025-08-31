@@ -17,10 +17,10 @@
         android:title="Profile" />
 
     <!-- Vuoto per il FAB -->
-    <item
-        android:id="@+id/newChallengeFragment"
-        android:enabled="false"
-        android:icon="@drawable/ic_transparent"
-        android:title="" />
+<!--    <item-->
+<!--        android:id="@+id/newChallengeFragment"-->
+<!--        android:enabled="false"-->
+<!--        android:icon="@drawable/ic_transparent"-->
+<!--        android:title="" />-->
 
 </menu>
