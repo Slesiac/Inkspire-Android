@@ -22,13 +22,26 @@ create table public.challenge (
   result_pic text null,
   inserted_at timestamp with time zone null default now(),
   updated_at timestamp with time zone null default now(),
+  parent_id integer null,
   constraint challenge_pkey primary key (id),
+  constraint challenge_parent_fk foreign KEY (parent_id) 
+                                 references challenge (id) on delete set null,
   constraint challenge_user_profile_id_fkey foreign KEY (user_profile_id)
-             references user_profile (id) on delete CASCADE
+                                            references user_profile (id) on delete CASCADE,
+  constraint challenge_parent_not_self check (
+    (
+      (parent_id is null)
+      or (parent_id <> id)
+    )
+  )
 ) TABLESPACE pg_default;
 
-create trigger set_updated_at_challenge BEFORE
-update on challenge for EACH row
+create index IF not exists idx_challenge_parent_id
+          on public.challenge
+       using btree (parent_id) TABLESPACE pg_default;
+
+create trigger set_updated_at_challenge
+before update on challenge for EACH row
 execute FUNCTION update_updated_at_column ();
 
 
@@ -50,23 +63,32 @@ create table public.art_constraint (
 
 -- VIEWS
 
-create view challenge_vw as
-select
-  c.id,
-  u.id as user_id,
-  c.title,
-  c.concept,
-  c.art_constraint,
-  c.description,
-  c.result_pic,
-  c.inserted_at,
-  c.updated_at,
-  u.username,
-  u.profile_pic,
-  u.bio
-  from challenge c
-  join user_profile u
-    on c.user_profile_id = u.id
+   create or replace view public.challenge_vw as
+   select c.id,
+          u.id as user_id,
+          c.title,
+          c.concept,
+          c.art_constraint,
+          c.description,
+          c.result_pic,
+          c.inserted_at,
+          c.updated_at,
+          u.username,
+          u.profile_pic,
+          u.bio,
+          -- campi parent
+          c.parent_id,
+          up_parent.id          as parent_user_id,
+          up_parent.username    as parent_username,
+          up_parent.profile_pic as parent_profile_pic,
+          c_parent.title        as parent_title
+     from challenge c
+     join user_profile u
+       on u.id = c.user_profile_id
+left join challenge c_parent
+       on c_parent.id = c.parent_id
+left join user_profile up_parent
+       on up_parent.id = c_parent.user_profile_id;
 
 
 create view user_profile_vw as
