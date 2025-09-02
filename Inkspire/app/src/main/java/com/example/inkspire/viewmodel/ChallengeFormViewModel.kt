@@ -79,14 +79,14 @@ class ChallengeFormViewModel(
     //Recupera l'ID dell'utente corrente (per assegnare l'autore)
     fun getCurrentUserId(): String? = userRepository.getCurrentUserId()
 
-    //Suggerisci un concept random
+    //Suggerisce un concept random
     fun fetchRandomConcept() {
         viewModelScope.launch {
             _randomConcept.postValue(challengeRepository.getRandomConcept())
         }
     }
 
-    //Suggerisci un art constraint random
+    //Suggerisce un art constraint random
     fun fetchRandomArtConstraint() {
         viewModelScope.launch {
             _randomArtConstraint.postValue(challengeRepository.getRandomArtConstraint())

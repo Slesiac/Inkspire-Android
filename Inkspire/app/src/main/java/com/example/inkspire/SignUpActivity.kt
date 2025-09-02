@@ -23,7 +23,7 @@ class SignUpActivity : AppCompatActivity() {
 
         setupViewModel()
 
-        // Callback moderna per intercettare il tasto back
+        // Callback per intercettare il tasto back
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))

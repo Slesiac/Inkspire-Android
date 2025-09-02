@@ -17,7 +17,7 @@
         android:src="@drawable/ic_account_circle"
         android:contentDescription="Profile Pic"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Progress bar sotto la foto -->
     <ProgressBar
@@ -26,22 +26,22 @@
         android:layout_height="24dp"
         android:layout_marginTop="8dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profilePic"
         app:layout_constraintStart_toStartOf="@id/profilePic"
-        app:layout_constraintTop_toBottomOf="@id/profilePic" />
+        app:layout_constraintEnd_toEndOf="@id/profilePic" />
 
     <!-- Bottone modifica profilo -->
     <ImageButton
         android:id="@+id/editProfileButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="Edit Profile"
         android:background="@drawable/border1"
         android:src="@drawable/ic_edit"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/profilePic"
         app:tint="@color/colorPrimary" />
 
     <!-- Username -->
@@ -50,64 +50,61 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/editProfileButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/profilePic"
         app:layout_constraintTop_toTopOf="@id/profilePic"
-        tools:text="" />
+        app:layout_constraintStart_toEndOf="@id/profilePic"
+        app:layout_constraintEnd_toStartOf="@id/editProfileButton"/>
 
     <!-- Bio dell'utente -->
     <TextView
         android:id="@+id/profileBio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:textColor="@color/blackWhite"
-        tools:text=""
+        android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/profileUsername"
         app:layout_constraintStart_toStartOf="@id/profileUsername"
-        app:layout_constraintEnd_toEndOf="@id/profileUsername"
-        android:layout_marginTop="4dp"/>
+        app:layout_constraintEnd_toStartOf="@id/editProfileButton" />
 
     <!-- Contatori -->
     <LinearLayout
         android:id="@+id/countersLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/profilePic"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profilePic">
 
         <!-- Tot create -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/createdChallenges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Created Challenges"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                android:text="Created Challenges"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Tot Completate -->
@@ -115,23 +112,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/completedChallenges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Completed Challenges"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
-                android:text="Completed Challenges"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

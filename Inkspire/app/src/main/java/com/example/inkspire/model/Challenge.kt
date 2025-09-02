@@ -14,22 +14,7 @@ data class Challenge(
     val art_constraint: String,
     val description: String? = null,
     val result_pic: String? = null, // se presente => challenge completata
-    val parent_id: Int? = null, // se fork: id della challenge sorgente
+    val parent_id: Int? = null, // se fork = id della challenge sorgente
     val inserted_at: String? = null,
     val updated_at: String? = null
 ) : Parcelable
-
-
-//@Parcelize
-//@Serializable
-//data class Challenge(
-//    val id: Int = 0,
-//    val user_profile_id: String, // Relazione 1-n col model UserProfile
-//    val title: String,
-//    val concept: String,
-//    val art_constraint: String,
-//    val description: String? = null,
-//    val result_pic: String? = null, // se presente => challenge completata
-//    val inserted_at: String? = null,
-//    val updated_at: String? = null
-//) : Parcelable

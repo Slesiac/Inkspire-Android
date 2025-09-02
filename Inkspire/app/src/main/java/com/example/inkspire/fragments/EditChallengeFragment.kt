@@ -41,7 +41,7 @@ class EditChallengeFragment : Fragment(R.layout.fragment_edit_challenge) {
     ) { uri: Uri? ->
         if (uri != null) {
             selectedImageUri = uri
-            imageRemoved = false // perché stai caricando una nuova immagine
+            imageRemoved = false // sta caricando una nuova immagine
             binding.editResultPic.setImageURI(uri)
         }
     }

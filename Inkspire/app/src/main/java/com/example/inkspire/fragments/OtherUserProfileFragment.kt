@@ -50,8 +50,8 @@ class OtherUserProfileFragment : Fragment(R.layout.fragment_user_profile) {
             Toast.makeText(requireContext(), "Invalid user", Toast.LENGTH_SHORT).show()
         }
 
-        // Nascondi eventuale pulsante di edit
-        binding.editProfileButton?.visibility = View.GONE
+        // Nasconde pulsante di Edit
+        binding.editProfileButton.visibility = View.GONE
     }
 
     private fun setupViewModel() {

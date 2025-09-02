@@ -57,13 +57,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideBottomUI() {
-        //binding.bottomAppBar.visibility = View.GONE
         binding.bottomNavView.visibility = View.GONE
         binding.addChallengeFab.visibility = View.GONE
     }
 
     private fun showBottomUI() {
-        //binding.bottomAppBar.visibility = View.VISIBLE
         binding.bottomNavView.visibility = View.VISIBLE
         binding.addChallengeFab.visibility = View.VISIBLE
     }

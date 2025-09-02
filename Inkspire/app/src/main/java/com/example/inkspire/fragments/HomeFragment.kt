@@ -132,12 +132,12 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                // Nessun altro item da nascondere
+                // Nessun altro elemento da nascondere
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                // Ricarica TUTTE le challenge quando chiudi la search
+                // Ricarica tutte le challenge quando si chiude la search
                 homeViewModel.getAllChallenges()
                 return true
             }

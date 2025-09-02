@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ChallengeVW(
     val id: Int, // Relazione 1-1 con il model Challenge
-    val user_id: String, // UUID - corrisponde al campo "id" nella tabella auth.users di Supabase
+    val user_id: String, // UUID: corrisponde al campo "id" nella tabella auth.users di Supabase
     val title: String,
     val concept: String,
     val art_constraint: String,
@@ -28,22 +28,3 @@ data class ChallengeVW(
     val parent_username: String? = null,
     val parent_profile_pic: String? = null
 ) : Parcelable
-
-
-//@Parcelize
-//@Serializable
-//data class ChallengeVW(
-//    val id: Int, // Relazione 1-1 con il model Challenge
-//    val user_id: String, // UUID - corrisponde al campo "id" nella tabella auth.users di Supabase
-//    val title: String,
-//    val concept: String,
-//    val art_constraint: String,
-//    val description: String? = null,
-//
-//    val result_pic: String? = null,
-//    val inserted_at: String? = null,
-//    val updated_at: String? = null,
-//    val username: String,
-//    val profile_pic: String? = null,
-//    val bio: String? = null
-//) : Parcelable

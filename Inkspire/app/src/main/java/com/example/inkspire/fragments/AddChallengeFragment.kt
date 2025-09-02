@@ -57,16 +57,15 @@ class AddChallengeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Prefill da Safe Args (titolo, concept, constraint, più parent id) - se presenti
+        // Prefill da Safe Args
         kotlin.runCatching {
-            val args = com.example.inkspire.fragments.AddChallengeFragmentArgs.fromBundle(requireArguments())
+            val args = AddChallengeFragmentArgs.fromBundle(requireArguments())
             // I quattro argomenti hanno default nel nav_graph, perciò sono sempre presenti
             if (args.prefillTitle.isNotBlank()) binding.addChallengeTitle.setText(args.prefillTitle)
             if (args.prefillConcept.isNotBlank()) binding.addChallengeConcept.setText(args.prefillConcept)
             if (args.prefillConstraint.isNotBlank()) binding.addChallengeConstraint.setText(args.prefillConstraint)
             parentChallengeId = args.parentChallengeId.takeIf { it > 0 }
         }
-        // Nota: description e result_pic NON vengono precompilati per un fork
 
         setupViewModel()
         setupImagePicker()

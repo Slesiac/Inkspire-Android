@@ -12,11 +12,10 @@ class UserRepository {
     private val client = SupabaseManager.client
     private val auth = SupabaseManager.auth
 
-    // ─────────────── CURRENT USER ID ───────────────
     fun getCurrentUserId(): String? =
         auth.currentUserOrNull()?.id
 
-    // ─────────────── PROFILO ───────────────
+    // Profilo
     suspend fun getCurrentUserProfile(): UserProfile? {
         val userId = getCurrentUserId() ?: return null
         return getUserProfileById(userId)
@@ -38,7 +37,7 @@ class UserRepository {
         }
     }
 
-    // ─────────────── STATISTICHE ───────────────
+    // Statistiche
     suspend fun getUserStats(userId: String): Pair<Int, Int> {
         val total = client.from("challenge")
             .select {
@@ -60,8 +59,6 @@ class UserRepository {
         return total to completed
     }
 
-    // ─────────────── UPDATE PROFILE ───────────────
-
     //Devo passare una Map<String, Any?> per permettere che profile_pic = null venga scritto come NULL nel DB.
     suspend fun updateUserProfile(userProfile: UserProfile): Boolean {
         return try {
@@ -81,21 +78,7 @@ class UserRepository {
         }
     }
 
-//    suspend fun updateUserProfile(userProfile: UserProfile): Boolean {
-//        return try {
-//            client.from("user_profile")
-//                .update(userProfile) {
-//                    filter { eq("id", userProfile.id) }
-//                    select()
-//                }
-//                .decodeSingleOrNull<UserProfile>() != null
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            false
-//        }
-//    }
-
-    // ─────────────── USER LIST ───────────────
+    // User List
     suspend fun getAllUsers(): List<UserProfileVW> { //Tutti gli utenti ordinati per numero di challenge create
         return client.from("user_profile_vw")
             .select {

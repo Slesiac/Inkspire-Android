@@ -36,7 +36,7 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Mostro loader e nascondo contenuto per evitare placeholder flicker
+        // Mostra progress bar e nesconde il contenuto per evitare placeholder flicker
         binding.progressBar.visibility = View.VISIBLE
         binding.viewChallengeContentGroup.visibility = View.GONE
 
@@ -74,7 +74,7 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                 binding.viewChallengeConcept.text = "Concept: ${challenge.concept}"
                 binding.viewChallengeConstraint.text = "Constraint: ${challenge.art_constraint}"
 
-                // Description: nascondi COMPLETAMENTE se vuota
+                // Description: nascondi se vuota
                 if (challenge.description.isNullOrBlank()) {
                     binding.viewChallengeDescription.visibility = View.GONE
                 } else {
@@ -104,24 +104,23 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                 binding.viewChallengeForkedChallengeContainer.visibility = View.GONE
                 binding.viewChallengeForkedAuthorContainer.visibility = View.GONE
 
-                // --- Se la challenge è un fork: mostra divider + i due container ---
+                // Se la challenge è un fork mostra divider + i due container
                 if (challenge.parent_id != null) {
-                    // Divider prima dei blocchi fork
                     binding.dividerBeforeForkSection.visibility = View.VISIBLE
 
-                    // 1) "Forked from: <titolo parent>" → click apre la VIEW del parent
+                    // 1) "Forked from: <titolo parent>" click apre la view della challenge parent
                     binding.viewChallengeForkedChallengeContainer.visibility = View.VISIBLE
                     binding.viewChallengeForkedChallengeTitle.text =
                         challenge.parent_title ?: "Untitled"
 
                     binding.viewChallengeForkedChallengeContainer.setOnClickListener {
-                        val parentId = challenge.parent_id ?: return@setOnClickListener
+                        val parentId = challenge.parent_id
                         val action = ViewChallengeFragmentDirections
                             .actionViewChallengeFragmentSelf(parentId)
                         findNavController().navigate(action)
                     }
 
-                    // 2) "Created by: <username parent>" → click apre profilo autore parent
+                    // 2) "Created by: <username parent>" click apre il profilo dell'autore parent
                     binding.viewChallengeForkedAuthorContainer.visibility = View.VISIBLE
                     binding.viewChallengeForkedAuthorUsername.text =
                         challenge.parent_username ?: "Unknown"
@@ -141,7 +140,7 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                     }
                 }
 
-                // Fine caricamento → mostro contenuti core
+                // Fine caricamento: mostra contenuti principali
                 binding.progressBar.visibility = View.GONE
                 binding.viewChallengeContentGroup.visibility = View.VISIBLE
 
@@ -175,7 +174,7 @@ class ViewChallengeFragment : Fragment(R.layout.fragment_view_challenge) {
                     findNavController().navigate(action)
                 }
 
-                // Fork: apre AddChallengeFragment con campi precompilati (no desc, no image)
+                // Fork: apre AddChallengeFragment con campi precompilati
                 binding.viewChallengeForkButton.setOnClickListener {
                     val c = viewChallengeViewModel.challenge.value ?: return@setOnClickListener
                     val action = ViewChallengeFragmentDirections

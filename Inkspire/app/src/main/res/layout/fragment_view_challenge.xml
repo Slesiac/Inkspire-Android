@@ -106,7 +106,7 @@
                     app:layout_constraintTop_toBottomOf="@id/viewChallengeImage"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Divider prima del Title -->
+                <!-- Divider -->
                 <View
                     android:id="@+id/dividerBeforeTitle"
                     android:layout_width="0dp"
@@ -163,8 +163,6 @@
                     android:id="@+id/viewChallengeDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    tools:text="Description"
                     android:textSize="16sp"
                     android:textColor="@color/blackWhite"
                     android:layout_marginTop="16dp"
@@ -172,7 +170,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Divider prima dei blocchi fork -->
+                <!-- Divider -->
                 <View
                     android:id="@+id/dividerBeforeForkSection"
                     android:layout_width="0dp"
@@ -203,7 +201,7 @@
                         android:id="@+id/viewChallengeForkedChallengeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Forked from: "
+                        android:text="Inspired by: "
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="16sp" />
 
@@ -263,7 +261,7 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- Gruppo: mostra SOLO i contenuti 'core' (non include description/fork) -->
+                <!-- Gruppo: mostra solo i contenuti principali (non include description/fork) -->
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/viewChallengeContentGroup"
                     android:layout_width="wrap_content"
@@ -271,7 +269,7 @@
                     android:visibility="gone"
                     app:constraint_referenced_ids="viewChallengeImage,viewChallengeAuthorContainer,viewChallengeEditButton,viewChallengeForkButton,dividerBeforeTitle,viewChallengeTitle,viewChallengeConcept,viewChallengeConstraint" />
 
-                <!-- spazio finale per evitare tagli su device con gesture bar -->
+                <!-- spazio finale -->
                 <View
                     android:id="@+id/bottomSpacer"
                     android:layout_width="0dp"
@@ -283,7 +281,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <!-- Loader in overlay -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
